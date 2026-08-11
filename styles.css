@@ -258,7 +258,7 @@ input::placeholder, textarea::placeholder {
   z-index: 5;
   flex: 1;
   min-width: 0;
-  padding: 0 40px 0 60px;
+  padding: 0 40px 0 290px;
 }
 
 .section {

@@ -74,22 +74,22 @@
   // Testimonial carousel
   const testimonials = [
     {
-      name: 'Paublo Dybala',
-      role: 'CEO of',
-      company: 'IBM Global',
-      quote: '“Drake - A Developer with the creativity, professional and master of code. Much more than what i\'m expect. High quality product & flexiable price. Recommended!.”'
+      name: 'IrisParis Team',
+      role: 'Client,',
+      company: 'Corporate Website Project',
+      quote: '“Thamod delivered our corporate website and admin panel exactly as we envisioned — clean, fast, and easy for our team to manage.”'
     },
     {
-      name: 'Marta Kovacs',
-      role: 'Design Lead at',
-      company: 'Northline',
-      quote: '“Fast, thoughtful and genuinely invested in the outcome. Shipped our marketing site two weeks early and it still converts better than anything we had before.”'
+      name: 'Project Supervisor',
+      role: 'Final Year Research,',
+      company: 'University of Bedfordshire',
+      quote: '“YalaGuard stood out as one of the most complete final-year projects — real-time tracking, geofencing, and automated alerts all working seamlessly.”'
     },
     {
-      name: 'Sam Oduya',
-      role: 'Founder of',
-      company: 'Taskly',
-      quote: '“He takes a messy brief and returns something clearer than we imagined. The handoff was immaculate — our team had zero questions.”'
+      name: 'ThisaraTravels Team',
+      role: 'Group Project,',
+      company: '5-Member Dev Team',
+      quote: '“As project lead, Thamod kept our team on track and built an admin panel that made managing bookings effortless.”'
     }
   ];
 

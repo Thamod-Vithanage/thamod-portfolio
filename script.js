@@ -1,4 +1,49 @@
 (function () {
+  // Scroll reveal animations
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const liquidVideo = document.querySelector('.liquid-bg-video');
+  if (liquidVideo && prefersReducedMotion) {
+    liquidVideo.pause();
+  }
+
+  if (!prefersReducedMotion) {
+    const singleSelectors = [
+      '.sidebar', '.tag', '.intro-title', '.section-title',
+      '.intro-desc', '.section-desc', '.spin-badge', '.portfolio-list > div:first-child',
+      '.testimonial-card', '.carousel-controls', '.brands-label', '.contact-email',
+      '.contact-form', '.attach-row', '.send-btn', '.pricing-footer'
+    ];
+    document.querySelectorAll(singleSelectors.join(',')).forEach((el) => {
+      el.classList.add('reveal');
+    });
+
+    const groupSelectors = [
+      '.stats-row', '.social-row', '.timeline', '.service-list',
+      '.skills-grid', '.portfolio-grid', '.pricing-grid', '.brands-grid'
+    ];
+    document.querySelectorAll(groupSelectors.join(',')).forEach((group) => {
+      [...group.children].forEach((child, i) => {
+        child.classList.add('reveal');
+        child.style.transitionDelay = `${i * 70}ms`;
+      });
+    });
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -80px 0px' }
+    );
+
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  }
+
   // Scroll-spy nav highlight
   const sectionIds = ['introduce', 'about', 'resume', 'services', 'skills', 'portfolio', 'testimonial', 'contact'];
   const navLinks = document.querySelectorAll('.nav-link');

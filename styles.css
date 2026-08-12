@@ -31,6 +31,27 @@ input::placeholder, textarea::placeholder {
   to { transform: rotate(360deg); }
 }
 
+/* Scroll reveal */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s cubic-bezier(.16, .8, .3, 1), transform .7s cubic-bezier(.16, .8, .3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Layout */
 
 .page {
@@ -47,11 +68,35 @@ input::placeholder, textarea::placeholder {
 .page-glow {
   position: absolute;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
   background:
     radial-gradient(120% 90% at 78% 12%, rgba(255, 255, 255, .055), transparent 55%),
     radial-gradient(90% 70% at 12% 78%, rgba(255, 255, 255, .04), transparent 60%),
     radial-gradient(60% 50% at 55% 45%, rgba(255, 255, 255, .03), transparent 65%);
+}
+
+.liquid-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.liquid-bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+
+.liquid-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 11, 11, .68);
 }
 
 /* Sidebar */
@@ -190,17 +235,19 @@ input::placeholder, textarea::placeholder {
   gap: 11px;
   height: 56px;
   border-radius: 32px;
+  border: 1px solid transparent;
   background: #2ce07f;
   color: #0b0b0b;
   font-size: 15px;
   font-weight: 500;
   letter-spacing: .06em;
-  transition: background .15s;
+  transition: background .15s, border-color .15s, color .15s;
 }
 
 .hire-btn:hover {
-  background: #57ec9c;
-  color: #0b0b0b;
+  background: transparent;
+  border-color: #2ce07f;
+  color: #2ce07f;
 }
 
 /* Right icon nav */
@@ -377,6 +424,8 @@ input::placeholder, textarea::placeholder {
 .spin-ring {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   animation: spin 18s linear infinite;
 }
 
@@ -801,7 +850,7 @@ input::placeholder, textarea::placeholder {
 }
 
 .pricing-grid {
-  max-width: 770px;
+  max-width: 1040px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 28px;
@@ -814,6 +863,11 @@ input::placeholder, textarea::placeholder {
   background: #0f0f0f;
   display: flex;
   flex-direction: column;
+  transition: border-color .15s;
+}
+
+.pricing-card:hover {
+  border-color: #2ce07f;
 }
 
 .pricing-head {
@@ -876,16 +930,18 @@ input::placeholder, textarea::placeholder {
   justify-content: center;
   height: 56px;
   border-radius: 32px;
+  border: 1px solid transparent;
   background: #2ce07f;
   color: #0b0b0b;
   font-size: 14.5px;
   letter-spacing: .07em;
-  transition: background .15s;
+  transition: background .15s, border-color .15s, color .15s;
 }
 
 .pkg-btn:hover {
-  background: #57ec9c;
-  color: #0b0b0b;
+  background: transparent;
+  border-color: #2ce07f;
+  color: #2ce07f;
 }
 
 .pricing-footer {
@@ -979,16 +1035,215 @@ select.field-input option {
   margin-top: 34px;
   height: 60px;
   padding: 0 46px;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 34px;
   background: #2ce07f;
   color: #0b0b0b;
   font-size: 15px;
   letter-spacing: .08em;
   cursor: pointer;
-  transition: background .15s;
+  transition: background .15s, border-color .15s, color .15s;
 }
 
 .send-btn:hover {
-  background: #57ec9c;
+  background: transparent;
+  border-color: #2ce07f;
+  color: #2ce07f;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+  .page {
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  .sidebar-col {
+    width: 100%;
+  }
+
+  .sidebar-sticky {
+    position: static;
+    height: auto;
+    padding: 24px 20px 0;
+    justify-content: center;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 480px;
+    max-height: none;
+    margin: 0 auto;
+  }
+
+  .nav-col {
+    width: auto;
+    order: 0;
+  }
+
+  .nav-sticky {
+    position: static;
+    height: auto;
+  }
+
+  .side-nav {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    top: auto;
+    transform: translateX(-50%);
+    flex-direction: row;
+    gap: 4px;
+    padding: 10px;
+    z-index: 30;
+    max-width: calc(100vw - 32px);
+    overflow-x: auto;
+  }
+
+  .content {
+    padding: 60px 24px 120px;
+  }
+
+  .section {
+    padding: 80px 0 0;
+  }
+
+  .intro-section {
+    min-height: auto;
+    padding: 50px 0 40px;
+  }
+
+  .intro-title {
+    font-size: 52px;
+    max-width: 100%;
+  }
+
+  .section-title {
+    font-size: 38px;
+    max-width: 100%;
+  }
+
+  .intro-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+  }
+
+  .spin-badge {
+    align-self: center;
+    margin-bottom: 8px;
+  }
+
+  .stats-row {
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  .spin-badge {
+    width: 130px;
+    height: 130px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .contact-form {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-sub {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 50px 18px 130px;
+  }
+
+  .section {
+    padding: 60px 0 0;
+  }
+
+  .intro-title {
+    font-size: 36px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .stat-num {
+    font-size: 44px;
+  }
+
+  .stats-row {
+    gap: 32px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-card,
+  .pricing-card,
+  .testimonial-card {
+    padding: 28px 22px;
+  }
+
+  .service-head {
+    gap: 14px;
+  }
+
+  .pricing-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .pricing-sub {
+    text-align: left;
+  }
+
+  .timeline {
+    padding-left: 34px;
+  }
+
+  .timeline-dot {
+    left: -40px;
+  }
+
+  .price {
+    font-size: 40px;
+  }
+
+  .project-cover-lg {
+    height: 220px;
+  }
+
+  .project-cover-sm {
+    height: 200px;
+  }
+
+  .portfolio-grid {
+    gap: 20px;
+  }
 }

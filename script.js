@@ -160,13 +160,13 @@
       name: 'IrisParis Team',
       role: 'Client,',
       company: 'Corporate Website Project',
-      quote: '“Thamod delivered our corporate website and admin panel exactly as we envisioned — clean, fast, and easy for our team to manage.”'
+      quote: '“Thamod delivered our corporate website and admin panel exactly as we envisioned clean, fast, and easy for our team to manage.”'
     },
     {
       name: 'Project Supervisor',
       role: 'Final Year Research,',
       company: 'University of Bedfordshire',
-      quote: '“YalaGuard stood out as one of the most complete final-year projects — real-time tracking, geofencing, and automated alerts all working seamlessly.”'
+      quote: '“YalaGuard stood out as one of the most complete final-year projects real-time tracking, geofencing, and automated alerts all working seamlessly.”'
     },
     {
       name: 'ThisaraTravels Team',

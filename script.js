@@ -10,7 +10,7 @@
   if (!prefersReducedMotion) {
     const singleSelectors = [
       '.sidebar', '.tag', '.intro-title', '.section-title',
-      '.intro-desc', '.section-desc', '.spin-badge', '.portfolio-list > div:first-child',
+      '.intro-desc', '.section-desc', '.spin-badge', '.portfolio-list > div:first-child', '.portfolio-list > div:last-child',
       '.testimonial-card', '.carousel-controls', '.brands-label', '.contact-email',
       '.contact-form', '.attach-row', '.send-btn', '.pricing-footer'
     ];
@@ -42,6 +42,58 @@
     );
 
     document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+    // Count-up numbers (hero stats, skill percentages, pricing)
+    function animateCount(el) {
+      const match = el.textContent.trim().match(/^(\D*)(\d+)(\D*)$/);
+      if (!match) return;
+      const [, prefix, numStr, suffix] = match;
+      const target = parseInt(numStr, 10);
+      const duration = 1100;
+      let startTime = null;
+
+      el.textContent = `${prefix}0${suffix}`;
+
+      function step(timestamp) {
+        if (startTime === null) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = `${prefix}${Math.round(target * eased)}${suffix}`;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    const countObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            countObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    document.querySelectorAll('.stat-num, .skill-pct, .price').forEach((el) => countObserver.observe(el));
+
+    // Timeline line draws in on scroll
+    const timelineEl = document.querySelector('.timeline');
+    if (timelineEl) {
+      const lineObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('line-grown');
+              lineObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      lineObserver.observe(timelineEl);
+    }
   }
 
   // Scroll-spy nav highlight
@@ -70,6 +122,37 @@
   });
 
   setActive('introduce');
+
+  // Project cover image carousels
+  document.querySelectorAll('.project-carousel').forEach((cover) => {
+    const imgs = [...cover.querySelectorAll('.project-cover-img')];
+    const dots = [...cover.querySelectorAll('.carousel-dot')];
+    let index = 0;
+
+    function show(next) {
+      index = (next + imgs.length) % imgs.length;
+      imgs.forEach((img, i) => {
+        let offset = i - index;
+        if (offset > imgs.length / 2) offset -= imgs.length;
+        if (offset < -imgs.length / 2) offset += imgs.length;
+        img.style.setProperty('--pos', offset);
+      });
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    }
+
+    const prevBtn = cover.querySelector('.carousel-nav-prev');
+    const nextBtn = cover.querySelector('.carousel-nav-next');
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      show(index - 1);
+    });
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      show(index + 1);
+    });
+  });
 
   // Testimonial carousel
   const testimonials = [
